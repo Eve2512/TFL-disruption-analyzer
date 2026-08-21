@@ -12,9 +12,9 @@ STATIONS = {
   "Bank",
   "Oxford Street",
   "Victoria"
-  "London Bridge"
-  "Vauxhall"
-  "Leicester Square"
+  "London Bridge",
+  "Vauxhall",
+  "Leicester Square",
 }
 
 #write def
