@@ -7,10 +7,10 @@ TIMEOUT = 10
 STATIONS = {
   "Waterloo",
   "Liverpool Street",
-  "Tottenham Court Station",
+  "Tottenham Court Road",
   "Bond Street",
   "Bank",
-  "Oxford Street",
+  "Oxford Circus",
   "Victoria"
   "London Bridge",
   "Vauxhall",
