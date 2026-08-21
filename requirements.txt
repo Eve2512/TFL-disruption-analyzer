@@ -1,1 +1,2 @@
 change name later one
+also make README.md file more substantial for final project
