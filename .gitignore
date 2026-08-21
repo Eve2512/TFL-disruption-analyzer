@@ -2,9 +2,6 @@
 data/*.db
 data/*.db-journal
 
-# Raw API archive
-data/raw/
-
 # Secrets - add the super duper secret api key
 .env
 
