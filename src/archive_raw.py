@@ -1,8 +1,10 @@
 import requests
 import gzip
-import timezone
-import datetime from datetime
-import Path from pathlib
+from datetime import datetime, timezone
+from pathlib import Path 
 
-Fetch https://api.tfl.gov.uk/Line/Mode/tube/Status?detail = true
+STATUS_URL = "https://api.tfl.gov.uk/Line/Mode/tube/Status"
 TIMEOUT = 10
+
+now = datetime.now(timezone.utc)
+repo_root = Path()
