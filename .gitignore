@@ -1,5 +1,5 @@
 # Derived data
-# The SQLite database is derived from data/raw/, which IS versioned.
+# The SQLite database is derived from data/raw/, which IS versioned. Also data/raw/ is deliberately NOT ignored, the archived API responses are the project's primary source and its longitudinal record.
 data/*.db
 data/*.sqlite
 data/*.sqlite3
@@ -14,7 +14,6 @@ data/*.db-shm
 # Secrets - add the super duper secret api key
 .env
 .env.local
-# .env example TFL_APP_ID= /TFL_APP_KEY=
 
 # Collector output, cron stdout/stderr- useful locally, noise in the repo
 *.log
