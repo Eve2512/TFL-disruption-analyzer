@@ -3,13 +3,9 @@ import requests
 TFL_BASE = "https://api.tfl.gov.uk"
 TIMEOUT = 10
 
-# Tube station NaPTAN ids start with this; hub ids (HUBWAT etc.) do not.
-# Confirms a result IS a tube station. Cannot confirm it is the RIGHT one --
-# Brent Cross passes this check.
 TUBE_ID_PREFIX = "940GZZLU"
 
-# A list, not a set: output order must be stable so it can be reviewed and
-# compared between runs.
+# A list of stations I am quite fond of
 STATIONS = [
     "Waterloo",
     "Liverpool Street",
@@ -131,9 +127,6 @@ def main():
             needs_review.append((name, "no matches - check the spelling"))
             continue
 
-        # NOTE: `problems` accumulates across ALL candidates for this station,
-        # so one bad candidate blocks a good one at the same station from
-        # being auto-confirmed. Deliberate: any ambiguity gets human review.
         problems = []
         if len(candidates) > 1:
             problems.append(f"{len(candidates)} candidates")
