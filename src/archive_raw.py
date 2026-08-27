@@ -1,8 +1,4 @@
-# Minimal raw archiver. Throwaway scaffolding: fetches tube line status and
-# writes the response bytes to a gzipped file. No parsing — the schema is not
-# settled, but the TfL API is stateless and an unarchived day cannot be
-# re-fetched. Superseded by collect.py once the schema exists.
-# Structure and fixes reviewed with Claude; implementation my own.
+# Minimal raw archiver. Throwaway scaffolding: fetches tube line status and writes the response bytes to a gzipped file 
 
 import requests
 import gzip
