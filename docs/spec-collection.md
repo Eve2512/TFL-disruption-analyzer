@@ -1,8 +1,14 @@
 Updated 1 Sep 2026 for the archive/parse split.
 
-# Failure modes
+## Two programs
 
-# Out of scope for v1
+## Inputs
+
+## Outputs
+
+## Failure modes
+
+## Out of scope for v1
 - Arrivals (/Line/{id}/Arrivals). ~100 predictions per line per poll; real headways, ~40x the volume. Best upgrade after v1.
 - Non-tube modes. One-line change later.
 - Lifts and escalators. Different question.
