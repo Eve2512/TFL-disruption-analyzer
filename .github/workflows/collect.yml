@@ -2,10 +2,12 @@ name: collect
 
 on:
   schedule:
-    # UTC. 05:00-22:59 UTC ~= 06:00-23:59 BST.
-    # Use "*/30" instead of "*/15" if the repo stays private (Actions minutes).
-    - cron: "*/15 5-22 * * *"
+    # Hourly. GitHub throttles high-frequency crons hard: */15 was honoured
+    # ~5x/day. Each run polls 4x internally instead of asking for 4 starts.
+    - cron: "0 * * * *"
   workflow_dispatch:
+  repository_dispatch:
+    types: [collect]
 
 permissions:
   contents: write
@@ -17,6 +19,7 @@ concurrency:
 jobs:
   archive:
     runs-on: ubuntu-latest
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
 
@@ -26,17 +29,17 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python src/archive_raw.py
-
-      - name: Commit the archive
+      - name: Poll four times, committing after each
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/raw/
-          if git diff --staged --quiet; then
-            echo "nothing new to commit"
-            exit 0
-          fi
-          git commit -m "data: archive $(date -u +'%Y-%m-%dT%H:%MZ')"
-          git pull --rebase
-          git push
+          for i in 1 2 3 4; do
+            echo "--- poll $i of 4 ---"
+            python src/archive_raw.py || echo "poll $i failed; continuing"
+            git add data/raw/
+            if ! git diff --staged --quiet; then
+              git commit -m "data: archive $(date -u +'%Y-%m-%dT%H:%MZ')"
+              git pull --rebase && git push || echo "push $i failed; will retry next poll"
+            fi
+            if [ $i -lt 4 ]; then sleep 870; fi
+          done
