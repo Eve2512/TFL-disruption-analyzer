@@ -30,7 +30,20 @@ Planned for later: /crowding/{naptan}/Live for a hand-verified station list.
 
 ## Outputs
 
+data/raw/YYYY-MM-DD/HHMM_status.json.gz : response bytes, unmodified, gzipped. Committed. UTC, from one timestamp computed per run.
+
+data/tfl.db : derived, gitignored, rebuildable.
+
 ## Failure modes
+
+| Event | Result | Because |
+| ------ | ----------- | ------ |
+| HTTP 500 / timeout | Exit non-zero, write nothing | gap is honest whereas a null row isn't |
+| 200, empty array | Nothing. Not a failure | "No disruptions" is data |
+| dataAvailable: false | Store NULL | 0 is a measurement |
+| Two lineStatuses | Two rows, status_index | Seen on the Bakerloo |
+| Same notice repeatedly | Store every observation | Dedup is a query concern |
+| Collector didn't run | No collection_run row | Absence is the downtime record |
 
 ## Out of scope for v1
 - Arrivals (/Line/{id}/Arrivals). ~100 predictions per line per poll; real headways, ~40x the volume. Best upgrade after v1.
