@@ -2,8 +2,7 @@ name: collect
 
 on:
   schedule:
-    # Hourly. GitHub throttles high-frequency crons hard: */15 was honoured
-    # ~5x/day. Each run polls 4x internally instead of asking for 4 starts.
+    # Hourly. unfortunately GitHub throttles high-frequency crons hard: */15 was honoured ~5x/day. Each run polls 4x internally instead of asking for 4 starts.
     - cron: "0 * * * *"
   workflow_dispatch:
   repository_dispatch:
@@ -19,27 +18,59 @@ concurrency:
 jobs:
   archive:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 330
+
+    env:
+      POLLS: 20
+      SLEEP_SECONDS: 870
+      TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
+ 
     steps:
       - uses: actions/checkout@v4
-
+ 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
+ 
       - run: pip install -r requirements.txt
-
-      - name: Poll four times, committing after each
+ 
+      - name: Identify the commit author
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for i in 1 2 3 4; do
-            echo "--- poll $i of 4 ---"
-            python src/archive_raw.py || echo "poll $i failed; continuing"
+
+          NAME="${{ secrets.COMMIT_NAME }}"
+          EMAIL="${{ secrets.COMMIT_EMAIL }}"
+          if [ -z "$EMAIL" ]; then
+            echo "::warning::COMMIT_EMAIL secret not set - committing as the bot."
+            echo "::warning::These commits will NOT count towards your contribution graph."
+            NAME="github-actions[bot]"
+            EMAIL="41898282+github-actions[bot]@users.noreply.github.com"
+          fi
+          git config user.name  "$NAME"
+          git config user.email "$EMAIL"
+ 
+      - name: Poll on a loop, committing after each
+        run: |
+          for i in $(seq 1 "$POLLS"); do
+            echo "--- poll $i of $POLLS ---"
+            python src/archive_raw.py || echo "poll $i reported a failure; continuing"
+ 
             git add data/raw/
-            if ! git diff --staged --quiet; then
+            if git diff --staged --quiet; then
+              echo "nothing new to commit"
+            else
               git commit -m "data: archive $(date -u +'%Y-%m-%dT%H:%MZ')"
-              git pull --rebase && git push || echo "push $i failed; will retry next poll"
+              # Retry the push: another run of this workflow may have pushed while we slept, and losing a commit here loses an observation permanently.
+              for attempt in 1 2 3; do
+                if git pull --rebase --quiet && git push --quiet; then
+                  echo "pushed"
+                  break
+                fi
+                echo "push attempt $attempt failed"
+                sleep 15
+              done
             fi
-            if [ $i -lt 4 ]; then sleep 870; fi
+ 
+            if [ "$i" -lt "$POLLS" ]; then sleep "$SLEEP_SECONDS"; fi
           done
+ 
+    
