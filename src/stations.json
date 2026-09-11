@@ -1,0 +1,14 @@
+{
+  "_comment": "Stations polled for live crowding, station-level NaPTANs (940G...), never platform ids (9400...) and never hub ids (HUB...). Its verified against /Line/victoria/StopPoints as of 2026-09-11. Change this file, not the code: archive_raw.py and parse.py both read it. Note to self: more stations will be added later",
+  "stations": {
+    "940GZZLUBLR": "Blackhorse Road Underground Station",
+    "940GZZLUBXN": "Brixton Underground Station",
+    "940GZZLUEUS": "Euston Underground Station",
+    "940GZZLUFPK": "Finsbury Park Underground Station",
+    "940GZZLUGPK": "Green Park Underground Station",
+    "940GZZLUHAI": "Highbury & Islington Underground Station",
+    "940GZZLUKSX": "King's Cross St. Pancras Underground Station",
+    "940GZZLUOXC": "Oxford Circus Underground Station",
+    "940GZZLUPCO": "Pimlico Underground Station"
+  }
+}
