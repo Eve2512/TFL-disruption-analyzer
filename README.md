@@ -1,4 +1,4 @@
-# Toxic-TFL
+# Tricky-TFL
 TfL disruption and ridership analyser which classifies disruption notices into typed causes (signal failure, staffing, planned works, incident, etc..)
 
 ## TLDR
