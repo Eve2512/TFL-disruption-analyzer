@@ -1,5 +1,5 @@
-# Tricky-TfL
-TfL disruption and ridership analyser which classifies disruption notices into typed causes (signal failure, staffing, planned works, incident, etc..)
+# TfL Disruption Analyzer
+Classifies Tube disruption notices into typed causes: signal failure, staffing, planned works, incident, and tracks which ones actually degrade service on which lines, at what times.
 
 ## TLDR
 This is an exercise to see which kinds of Tube disruption actually degrade service, on which lines, at what times and where would one intervene first?
