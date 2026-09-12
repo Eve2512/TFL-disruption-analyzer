@@ -95,3 +95,33 @@ CREATE TABLE station_crowding_observation (
 );
  
 CREATE INDEX idx_crowding_station ON station_crowding_observation (naptan_id);
+
+-- Notes:
+
+-- CROWDING, THREE STATES
+-- request failed:    data_available NULL, fetch_error set
+-- no sensor:         data_available 0,    pct_of_baseline NULL
+-- real reading:      data_available 1,    pct_of_baseline set
+-- TfL sends percentageOfBaseline 0 when dataAvailable is false; the CHECK bars it.
+
+-- SEVERITY RANKS
+-- is_disruption / is_planned / service_impact_rank are research judgements, not
+-- TfL facts. 8 of 21 levels seen so far; the rest exist to hold the foreign key.
+
+-- SKIPPED: disruption_notice_observation
+-- disruptions[] is empty in all 385 archived files; the text arrives as
+-- lineStatuses.reason, already a column here.
+-- Add it, keyed (run_id, line_id, notice_hash), if /Line/Mode/tube/Disruption is collected.
+
+-- SKIPPED: affected_route_observation
+-- A third grain: line -> status -> affected route. disruption_hash distinguishes
+-- entries that would otherwise be identical; COUNT(*) over-counts up to 6.5x without it.
+-- Add it when route-level analysis is wanted. The raw archive holds the objects.
+
+-- SKIPPED: validity_period table
+-- validityPeriods is never longer than one entry (2718 rows zero, 1917 exactly one),
+-- so it is three columns. Make it a table if TfL ever sends two.
+
+-- NOT STORED: the disruption object body
+-- Median 31KB, max 269KB per entry; it would dwarf the database.
+-- Hash only. Fetch the body from data/raw when needed.
