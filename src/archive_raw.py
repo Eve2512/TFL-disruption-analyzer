@@ -16,7 +16,7 @@ STATIONS_FILE = SRC_DIR / "stations.json"
 
 def auth_params():
     """returns the app_key query param if one is configured, else nothing """
-    key = os.environment.get("TFL_APP_KEY")
+    key = os.environ.get("TFL_APP_KEY")
     return {"app_key": key} if key else {}
 
 def fetch(session, url, params=None):
