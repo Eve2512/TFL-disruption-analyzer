@@ -6,6 +6,7 @@
     "940GZZLUBND": "Bond Street - dataAvailable:false, no sensor",
     "940GZZLUBNK": "Bank - dataAvailable:true but reading was 34 days old",
     "940GZZLUWLO": "Waterloo - dataAvailable:true but reading was 20 days old"
+  },
   
     "stations": {
     "940GZZLUBST": "Baker Street Underground Station",
