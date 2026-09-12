@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 330
 
     env:
-      POLLS: 20
+      POLLS: 16
       SLEEP_SECONDS: 870
       TFL_APP_KEY: ${{ secrets.TFL_APP_KEY }}
  
