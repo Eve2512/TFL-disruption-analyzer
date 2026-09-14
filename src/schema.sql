@@ -1,4 +1,4 @@
--- schema.sql - Toxic-TFL.  Apply: sqlite3 data/tfl.db < src/schema.sql
+-- Apply: sqlite3 data/tfl.db < src/schema.sql
 -- Five tables, still need toadd some notes at the bottom.
 
  
