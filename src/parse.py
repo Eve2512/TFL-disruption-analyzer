@@ -52,7 +52,7 @@ def crowding_rows(run_id, document):
     for response in document["responses"]:
         naptan = response["naptan_id"]
         body = response["body"]
-        if response["error"]:
+        if response["error"]
             yield run_id, naptan, None, None, None, response["error"]
         elif body["dataAvailable"]:
             yield run_id, naptan, 1, body["percentageOfBaseline"], body["timeUtc"], None
@@ -88,3 +88,34 @@ def parse_file(conn, path):
                 crowding_rows(run_id, document),
             )
 
+
+def main():
+    is_new = not DB_PATH.exists()
+    conn = sqlite3.connect(DB_PATH)
+    if is_new:
+        conn.executescript(SCHEMA_FILE.read_text())
+    conn.execute("PRAGMA foreign_keys = ON")
+    stations_doc = json.loads(STATIONS_FILE.read_text())
+    stations = stations_doc["stations"] | stations_doc.get("_retired", {})
+    with conn:
+        conn.executemany(
+            "INSERT INTO station_dim VALUES (?, ?) "
+            "ON CONFLICT (naptan_id) DO UPDATE SET station_name = excluded.station_name",
+            stations.items(),
+        )
+
+    done = {row[0] for row in conn.execute("SELECT source_file FROM collection_run")}
+    todo = [p for p in sorted(RAW_DIR.glob("*/*.json.gz")) if p.relative_to(RAW_DIR).as_posix() not in done]
+
+    for path in todo:
+        try:
+            parse_file(conn, path)
+        except Exception:
+            print(f"failed on {path.relative_to(RAW_DIR)} - earlier files are saved, rerun resumes here")
+            raise
+
+    print(f"parsed {len(todo)} new files ({len(done)} already in {DB_PATH.name})")
+
+
+if __name__ == "__main__":
+    main()
