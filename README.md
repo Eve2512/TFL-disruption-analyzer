@@ -2,7 +2,7 @@
 Classifies Tube disruption notices into typed causes: signal failure, staffing, planned works, incident, and tracks which ones actually degrade service on which lines, at what times.
 
 ## TLDR
-This is an exercise to see which kinds of Tube disruption actually degrade service, on which lines, at what times and where would one intervene first?
+This is a practice exercise to see which kinds of Tube disruption actually degrade service, on which lines, at what times and where would one intervene first
 
 ## Why this exists
 Because TFL only reports current state of tube lines, and there is no public archive of line status or disruption history. So this project builds its own: a collector runs on a schedule, fetches live status and station crowding, archives the raw JSON, and appends typed rows to SQLite.
