@@ -52,7 +52,7 @@ def crowding_rows(run_id, document):
     for response in document["responses"]:
         naptan = response["naptan_id"]
         body = response["body"]
-        if response["error"]
+        if response["error"]:
             yield run_id, naptan, None, None, None, response["error"]
         elif body["dataAvailable"]:
             yield run_id, naptan, 1, body["percentageOfBaseline"], body["timeUtc"], None
