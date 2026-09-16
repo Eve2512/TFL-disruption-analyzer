@@ -8,6 +8,12 @@
     "940GZZLUWLO": "Waterloo - dataAvailable:true but reading was 20 days old"
   },
   
+    "_retired": {
+    "940GZZLUBLR": "Blackhorse Road Underground Station",
+    "940GZZLUBXN": "Brixton Underground Station",
+    "940GZZLUPCO": "Pimlico Underground Station"
+  },
+  
     "stations": {
     "940GZZLUBST": "Baker Street Underground Station",
     "940GZZLUCYF": "Canary Wharf Underground Station",
