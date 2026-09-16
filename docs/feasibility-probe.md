@@ -43,5 +43,8 @@ Remaining ids come from /Line/{id}/StopPoints, which also supplies line_station.
 ## Ridership
 Not in the API. Project NUMBAT (crowding.data.tfl.gov.uk) publishes 15-minute band entries/exits, but as a periodic typical-day survey. It cannot show that ridership fell on a given day; it can weight disruptions by expected demand.
 
+## Dataset quality
+This repo was initially private but was made public after realisation that GitHub throttles "high-frequency" (once every 15min) actions hard, on some days honouring the */15 five times a day. This has impacted the quality of the data collected, where now effectively 2 datasets exist in one: a sparse one when the actions weren't being honoured, and a more dense one from the 13th sept onwards.
+
 ## Auth
 No key required. Unauthenticated polling has never been throttled. TfL does not publish quotas. app_key read from env if set.
