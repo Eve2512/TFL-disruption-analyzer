@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS severity_dim (
  
 -- service_impact_rank: 0 none, 1 info/access only, 2 minor, 3 moderate,
 -- 4 severe or partial closure, 5 total loss of service.
-INSERT INTO severity_dim VALUES
+INSERT OR IGNORE INTO severity_dim VALUES
     ( 0, 'Special Service',      1, 0, 2),
     ( 1, 'Closed',               1, 0, 5),
     ( 2, 'Suspended',            1, 0, 5),   -- seen
