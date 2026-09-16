@@ -6,7 +6,7 @@ PRAGMA foreign_keys = ON;
  
  
 -- ONE ROW = one TfL severity level and how this project interprets it.
-CREATE TABLE severity_dim (
+CREATE TABLE IF NOT EXISTS severity_dim (
     severity_level       INTEGER NOT NULL PRIMARY KEY,
     description          TEXT    NOT NULL,
     is_disruption        INTEGER NOT NULL CHECK (is_disruption IN (0, 1)),
@@ -41,14 +41,14 @@ INSERT INTO severity_dim VALUES
  
  
 -- ONE ROW = one station this project polls for crowding.
-CREATE TABLE station_dim (
+CREATE TABLE IF NOT EXISTS station_dim (
     naptan_id     TEXT NOT NULL PRIMARY KEY,
     station_name  TEXT NOT NULL
 );
  
  
 -- ONE ROW = one archived raw file, parsed once.
-CREATE TABLE collection_run (
+CREATE TABLE IF NOT EXISTS collection_run (
     run_id       INTEGER PRIMARY KEY,                -- rowid alias, autoincrements
     source_file  TEXT    NOT NULL UNIQUE,            -- '2026-09-12/1015_status.json.gz'
     endpoint     TEXT    NOT NULL CHECK (endpoint IN ('line_status', 'crowding_live')),
@@ -60,7 +60,7 @@ CREATE INDEX idx_run_observed_at ON collection_run (observed_at);
  
  
 -- ONE ROW = one status condition reported for one line in one run.
-CREATE TABLE line_status_observation (
+CREATE TABLE IF NOT EXISTS line_status_observation (
     run_id                INTEGER NOT NULL REFERENCES collection_run (run_id),
     line_id               TEXT    NOT NULL,
     status_index          INTEGER NOT NULL CHECK (status_index >= 0),
@@ -81,7 +81,7 @@ CREATE INDEX idx_status_hash     ON line_status_observation (disruption_hash);
  
  
 -- ONE ROW = one live crowding reading for one station in one run.
-CREATE TABLE station_crowding_observation (
+CREATE TABLE IF NOT EXISTS station_crowding_observation (
     run_id            INTEGER NOT NULL REFERENCES collection_run (run_id),
     naptan_id         TEXT    NOT NULL REFERENCES station_dim (naptan_id),
     data_available    INTEGER          CHECK (data_available IN (0, 1)),
