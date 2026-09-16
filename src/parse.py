@@ -90,10 +90,9 @@ def parse_file(conn, path):
 
 
 def main():
-    is_new = not DB_PATH.exists()
     conn = sqlite3.connect(DB_PATH)
-    if is_new:
-        conn.executescript(SCHEMA_FILE.read_text())
+    # schema.sql is idempotent (IF NOT EXISTS / OR IGNORE), so applying it every run is safe
+    conn.executescript(SCHEMA_FILE.read_text())
     conn.execute("PRAGMA foreign_keys = ON")
     stations_doc = json.loads(STATIONS_FILE.read_text())
     stations = stations_doc["stations"] | stations_doc.get("_retired", {})
