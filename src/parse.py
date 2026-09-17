@@ -94,6 +94,7 @@ def main():
     # schema.sql is idempotent (IF NOT EXISTS / OR IGNORE), so applying it every run is safe
     conn.executescript(SCHEMA_FILE.read_text())
     conn.execute("PRAGMA foreign_keys = ON")
+    assert conn.execute("PRAGMA foreign_keys").fetchone()[0] == 1, "foreign keys did not enable"
     stations_doc = json.loads(STATIONS_FILE.read_text())
     stations = stations_doc["stations"] | stations_doc.get("_retired", {})
     with conn:

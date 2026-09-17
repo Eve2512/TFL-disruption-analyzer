@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS collection_run (
     parsed_at    TEXT    NOT NULL                    -- ISO 8601 UTC
 );
  
-CREATE INDEX idx_run_observed_at ON collection_run (observed_at);
+CREATE INDEX IF NOT EXISTS idx_run_observed_at ON collection_run (observed_at);
  
  
 -- ONE ROW = one status condition reported for one line in one run.
@@ -75,9 +75,9 @@ CREATE TABLE IF NOT EXISTS line_status_observation (
     PRIMARY KEY (run_id, line_id, status_index)
 );
  
-CREATE INDEX idx_status_line     ON line_status_observation (line_id);
-CREATE INDEX idx_status_severity ON line_status_observation (severity_level);
-CREATE INDEX idx_status_hash     ON line_status_observation (disruption_hash);
+CREATE INDEX IF NOT EXISTS idx_status_line     ON line_status_observation (line_id);
+CREATE INDEX IF NOT EXISTS idx_status_severity ON line_status_observation (severity_level);
+CREATE INDEX IF NOT EXISTS idx_status_hash     ON line_status_observation (disruption_hash);
  
  
 -- ONE ROW = one live crowding reading for one station in one run.
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS station_crowding_observation (
         OR (fetch_error IS NOT NULL AND data_available IS     NULL))
 );
  
-CREATE INDEX idx_crowding_station ON station_crowding_observation (naptan_id);
+CREATE INDEX IF NOT EXISTS idx_crowding_station ON station_crowding_observation (naptan_id);
 
 -- Notes:
 
