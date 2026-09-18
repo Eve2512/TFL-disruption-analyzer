@@ -1,1 +1,10 @@
-
+{
+  "_comment": "Ordered. First match wins, so put specific phrases above general ones",
+  "rules": [
+    {"cause": "signal_failure", "match": "signal failure"},
+    {"cause": "signal_failure", "match": "signalling"},
+    {"cause": "staffing", "match": "shortage of train operators"},
+    {"cause": "planned_works", "match": "planned engineering work"},
+    {"cause": "person_on_track", "match": "person on the track"}
+  ]
+}
