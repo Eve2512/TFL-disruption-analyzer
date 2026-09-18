@@ -1,5 +1,5 @@
 -- Apply: sqlite3 data/tfl.db < src/schema.sql
--- Five tables, still need toadd some notes at the bottom.
+-- seven tables, still need to add some notes at the bottom.
 
  
 PRAGMA foreign_keys = ON;
