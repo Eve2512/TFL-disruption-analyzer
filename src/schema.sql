@@ -84,7 +84,15 @@ CREATE TABLE IF NOT EXISTS cause_dim (
     description  TEXT NOT NULL
 );
 
--- ONE ROW = one live crowding reading for one station in one run.
+-- one row = one distinct reason string thats classified
+CREATE TABLE IF NOT EXISTS reason_cause(
+ reason_text     TEXT NOT NULL PRIMARY KEY,
+ cause_code      TEXT NOT NULL REFERENCES cause_dim (cause_code), 
+ matched_phrase  TEXT,
+ classified_at   TEXT NOT NULL
+)
+
+-- ONE ROW = one live crowding reading for one station in one run
 CREATE TABLE IF NOT EXISTS station_crowding_observation (
     run_id            INTEGER NOT NULL REFERENCES collection_run (run_id),
     naptan_id         TEXT    NOT NULL REFERENCES station_dim (naptan_id),
