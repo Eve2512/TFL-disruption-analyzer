@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS reason_cause(
  cause_code      TEXT NOT NULL REFERENCES cause_dim (cause_code), 
  matched_phrase  TEXT,
  classified_at   TEXT NOT NULL
-)
+);
 
 -- ONE ROW = one live crowding reading for one station in one run
 CREATE TABLE IF NOT EXISTS station_crowding_observation (
