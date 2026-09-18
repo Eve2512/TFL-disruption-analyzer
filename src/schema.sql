@@ -79,7 +79,11 @@ CREATE INDEX IF NOT EXISTS idx_status_line     ON line_status_observation (line_
 CREATE INDEX IF NOT EXISTS idx_status_severity ON line_status_observation (severity_level);
 CREATE INDEX IF NOT EXISTS idx_status_hash     ON line_status_observation (disruption_hash);
  
- 
+CREATE TABLE IF NOT EXISTS cause_dim (
+    cause_code   TEXT NOT NULL PRIMARY KEY,
+    description  TEXT NOT NULL
+);
+
 -- ONE ROW = one live crowding reading for one station in one run.
 CREATE TABLE IF NOT EXISTS station_crowding_observation (
     run_id            INTEGER NOT NULL REFERENCES collection_run (run_id),
