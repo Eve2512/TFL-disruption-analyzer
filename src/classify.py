@@ -11,7 +11,8 @@ CAUSES_FILE = SRC_DIR / "causes.json"
 UNCLASSIFIED = "unclassified"
 
 def normalise(text):
-  """ todo """
+  # lowercase and collapse runs of whitespace, so small formattingd diffs in TfL's templated txt don't break a match
+  return " ".join(text.lower().split())
   
 def classify(reason, rules):
   """Return (cause_code, matched_phrase) for one reason string. First rule whose "match" appears in the reason wins """
