@@ -16,3 +16,6 @@ Also for the real limitations they are recorded honestly as they're found > see 
 
 ## Data
 The parsed dataset is published on Hugging Face at <https://huggingface.co/datasets/Eve39570/London-Tube-Status-Archive>, as Parquet, under an open licence. Anyone can use it without running the collector.
+
+## Running it yourself
+Install with pip install -r requirements.txt then run python src/archive_raw.py to fetch, and python src/parse.py to build the database and python src/classify.py to label the disruption notices. Queries in src/queries.sql run against data/tfl.db with sqlite3 
