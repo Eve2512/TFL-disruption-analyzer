@@ -23,4 +23,7 @@ def classify(reason, rules):
       return rule["cause"], rule["match"]
   return UNCLASSIFIED, None
 
-#todo write main function
+def main():
+  doc = json.loads(CAUSES_FILE.read_text())
+  
+  conn = sqlite3.connect(DB_PATH)
