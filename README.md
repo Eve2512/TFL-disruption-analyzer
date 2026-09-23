@@ -13,3 +13,6 @@ Which means that the dataset accrues in calendar days, so a day the collector do
 More specifically they have NUMBAT, comprised of actual fault logs, and they have gateline counts, so this project isn't discovering something TfL doesn't know. I'm just doing my best to reconstruct it from outside, from public data only, with no access to the source systems, and learning as I go on!
 
 Also for the real limitations they are recorded honestly as they're found > see docs/feasibility-probe.md
+
+## Data
+The parsed dataset is published on Hugging Face at <https://huggingface.co/datasets/Eve39570/London-Tube-Status-Archive>, as Parquet, under an open licence. Anyone can use it without running the collector.
