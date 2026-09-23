@@ -10,7 +10,16 @@ CAUSES_FILE = SRC_DIR / "causes.json"
 
 UNCLASSIFIED = "unclassified"
 
-
-#todo define the functions
+def normalise(text):
+  """ todo """
+  
+def classify(reason, rules):
+  """Return (cause_code, matched_phrase) for one reason string. First rule whose "match" appears in the reason wins """
+  # this is why is why causes.json is ordered specific-to-general
+  text = normalise(reason)
+  for rule in rules:
+    if normalise(rule["match"]) in text:
+      return rule["cause"], rule["match"]
+  return UNCLASSIFIED, None
 
 #todo write main function
