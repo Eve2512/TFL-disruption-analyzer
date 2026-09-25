@@ -1,0 +1,56 @@
+name: Publish to HuggingFace
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install --quiet pandas pyarrow huggingface_hub
+
+      - name: Restore the parsed database
+        uses: actions/cache/restore@v4
+        with:
+          path: data/tfl.db
+          key: tfl-db-${{ github.run_id }}
+          restore-keys: tfl-db-
+
+      - name: Parse new raw files
+        run: python src/parse.py
+
+      - name: Export Parquet
+        run: python src/export_hf.py
+
+      - name: Add the dataset card
+        run: cp docs/hf_dataset_card.md hf_export/README.md
+
+      - name: Upload to HuggingFace
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf upload Eve39570/London-Tube-Status-Archive hf_export . \
+            --repo-type dataset \
+            --commit-message "Update: data through $(date -u +%Y-%m-%d)"
+
+      - name: Save the parsed database
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data/tfl.db
+          key: tfl-db-${{ github.run_id }}
+
