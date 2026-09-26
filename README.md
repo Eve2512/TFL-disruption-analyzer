@@ -19,3 +19,8 @@ The parsed dataset is published on Hugging Face at <https://huggingface.co/datas
 
 ### Running it yourself
 Install with pip install -r requirements.txt then run python src/archive_raw.py to fetch, and python src/parse.py to build the database and python src/classify.py to label the disruption notices. Queries in src/queries.sql run against data/tfl.db with sqlite3 
+
+
+### The files
+src/archive_raw.py fetches 2 things on every poll, the status of all tube line and the crowding level at a fixed set of stations
+
