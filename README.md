@@ -26,3 +26,4 @@ src/archive_raw.py fetches 2 things on every poll, the status of all tube line a
 
 src/parse.py reads the raw files and appends rows to data/tfl.db, applying src/schema.sql first so the database can be rebuilt from scratch by deleting it and rerunning. Every statement in the schema is IF NOT EXISTS, so reapplying it is safe.
 
+src/classify.py
