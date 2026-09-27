@@ -26,4 +26,10 @@ src/archive_raw.py fetches 2 things on every poll, the status of all tube line a
 
 src/parse.py reads the raw files and appends rows to data/tfl.db, applying src/schema.sql first so the database can be rebuilt from scratch by deleting it and rerunning. Every statement in the schema is IF NOT EXISTS, so reapplying it is safe.
 
-src/classify.py
+src/classify.py reads every distinct reason string out of the database, matches it against an ordered keyword list, and writes the result to reason_cause. It classifies distinct sentences rather than observations because the same notice is stored on every poll while a disruption lasts; at the time of writing that's 3,535 observations carrying 391 distinct sentences, so the table version does a ninth of the work. More to the point, when I add a keyword the classification is rewritten in one place and every observation picks it up through a join, instead of an UPDATE sweeping thousands of rows that could fail halfway and leave half the data on an old taxonomy.
+
+src/causes.json holds the keyword to cause rules, ordered from the most specific to general, the first match wins. Sentences with no rule matches get an explicit unclassified code.
+
+src/queries.sql holds the analysis: cause frequency, which causes correlate with the worst severity levels, and how disruption distributes across the day.
+
+.github/workflows/collect.yml runs the collector, its an hourly cron that 
