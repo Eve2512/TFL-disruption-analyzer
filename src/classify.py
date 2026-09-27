@@ -27,3 +27,16 @@ def main():
   doc = json.loads(CAUSES_FILE.read_text())
   
   conn = sqlite3.connect(DB_PATH)
+  conn.execute("PRAGMA foreign_keys = ON")
+  
+  with conn:
+    conn.executemany(
+      #TODO
+      ""
+      "",
+      doc["causes"].items(),
+    )
+    
+    reasons = [row[0] for row in conn.execute(
+      "SELECT DISTINCT reason FROM line_status_observation WHERE reason IS NOT NULL"
+    )]
