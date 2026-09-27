@@ -16,8 +16,21 @@ LIMIT  14;
 
 
 -- 2. CLASSIFIER COVERAGE
+-- what share of disruption notices the taxonomy actually explains.
+
+SELECT cause_code,
+       COUNT(*)                                                   AS distinct_reasons,
+       COUNT(100.0 * COUNT(*) / (SELECT COUNT(*) FROM reason_cause), 1) AS pct_of_reasons
+FROM   reason_cause
+GROUP  BY cause_code
+ORDER  BY distinct_reasons DESC;
 
 -- 3. WHAT TO WRITE A RULE FOR NEXT
+-- unclassified sentences ranked by how often they are observed
+
+SELECT o.reason,
+       COUNT(*) AS observations
+need to finish theis latttter
 
 -- 4. CAUSE FREQUENCY, TWO WAYS
 
