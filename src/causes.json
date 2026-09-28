@@ -16,6 +16,30 @@
     {"cause": "signal_failure",  "match": "signal failure"},
     {"cause": "signal_failure",  "match": "track circuit failure"},
     {"cause": "signal_failure",  "match": "signalling"},
+
+    {"cause": "staffing",        "match": "shortage of train operators"},
+    {"cause": "staffing",        "match": "shortage of train drivers"},
+    {"cause": "staffing",        "match": "industrial action"},
+    {"cause": "staffing",        "match": "strike action"},
+
+    {"cause": "planned_works",   "match": "planned engineering work"},
+    {"cause": "planned_works",   "match": "engineering work"},
+
+    {"cause": "person_on_track", "match": "person on the track"},
+    {"cause": "person_on_track", "match": "person ill on a train"},
+
+    {"cause": "train_fault",     "match": "defective train"},
+    {"cause": "train_fault",     "match": "faulty train"},
+    {"cause": "train_fault",     "match": "train fault"},
+
+    {"cause": "track_fault",     "match": "points failure"},
+    {"cause": "track_fault",     "match": "track fault"},
+    {"cause": "track_fault",     "match": "a fault with the track"},
+
+    {"cause": "power",           "match": "power supply"},
+    {"cause": "power",           "match": "loss of power"},
+
+    finsishthis later
   ]
     
 }
