@@ -39,7 +39,10 @@
     {"cause": "power",           "match": "power supply"},
     {"cause": "power",           "match": "loss of power"},
 
-    finsishthis later
+    {"cause": "incident",        "match": "customer incident"},
+    {"cause": "incident",        "match": "emergency services"},
+    {"cause": "incident",        "match": "security alert"},
+    {"cause": "incident",        "match": "fire alert"}
   ]
     
 }
