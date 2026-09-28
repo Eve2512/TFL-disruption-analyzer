@@ -30,7 +30,13 @@ ORDER  BY distinct_reasons DESC;
 
 SELECT o.reason,
        COUNT(*) AS observations
-need to finish theis latttter
+FROM   line_status_observation o
+LEFT   JOIN reason_cause rc ON rc.reason_text = o.reason
+WHERE  o.reason IS NOT NULL
+AND    (rc.cause_code IS NULL OR rc.cause_code = 'unclassified')
+GROUP  BY o.reason
+ORDER  BY observations DESC
+LIMIT  20;
 
 -- 4. CAUSE FREQUENCY, TWO WAYS
 
