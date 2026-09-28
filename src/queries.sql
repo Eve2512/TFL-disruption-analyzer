@@ -104,4 +104,18 @@ ORDER  BY p.hour_utc;
 -- 8. WHERE TO INTERVENE FIRST
 -- the whole crux of this repo, cause is crossed with line then ranked by duration weighted
 -- impact rather than by count.
+SELECT o.line_name,
+       rc.cause_code,
+       COUNT(*)                                            AS observations,
+       ROUND(AVG(s.service_impact_rank), 2)                AS avg_rank,
+       ROUND(COUNT(*) * AVG(s.service_impact_rank))        AS exposure_score
+FROM   line_status_observation o
+JOIN   reason_cause rc ON rc.reason_text   = o.reason
+JOIN   severity_dim s  ON s.severity_level = o.severity_level
+WHERE  s.is_planned = 0
+GROUP  BY o.line_id, o.line_name, rc.cause_code
+HAVING COUNT(*) >= 10
+ORDER BY exposure_score DESC
+LIMIT 15;
+
 
