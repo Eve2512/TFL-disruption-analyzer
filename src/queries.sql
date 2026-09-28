@@ -77,6 +77,9 @@ GROUP  BY o.line_id, o.line_name,
 ORDER  BY pct_of_polls DESC;
 
 -- 7. WHAT TIME OF DAY
+-- dividing disruped line-rows by the number of polls in that hour gives the avg number of lines disrupted at once.
 
 -- 8. WHERE TO INTERVENE FIRST
+-- the whole crux of this repo, cause is crossed with line then ranked by duration weighted
+-- impact rather than by count.
 
