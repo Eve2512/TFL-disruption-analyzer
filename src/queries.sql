@@ -66,6 +66,15 @@ HAVING COUNT(*) >= 20
 ORDER  BY avg_rank DESC;
  
 -- 6. WHICH LINES
+-- share of polls where the line was in any disrupted state
+SELECT o.line_name,
+       COUNT(DISTINCT CASE WHEN s.is_disruption = 1 THEN o.run_id END) AS disrupted_polls,,
+       ROUND (100.0 * COUNT(DISTINCT CASE WHEN s.is_disruption = 1 THEN o.run_id END) / (SELECT COUNT(*) FROM collection_run WHERE endpoint = 'line_status'), 1)
+           AS pct_of_polls
+FROM   line_status_observation o
+JOIN   severity_dim s ON s.severity_level = o.severity_level
+GROUP  BY o.line_id, o.line_name,
+ORDER  BY pct_of_polls DESC;
 
 -- 7. WHAT TIME OF DAY
 
