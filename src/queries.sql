@@ -78,6 +78,28 @@ ORDER  BY pct_of_polls DESC;
 
 -- 7. WHAT TIME OF DAY
 -- dividing disruped line-rows by the number of polls in that hour gives the avg number of lines disrupted at once.
+WITH polls AS (
+       SELECT strftime('%H', observed_at) AS hour_utc,
+              COUNT(*)                    AS poll_count
+       FROM collection_run
+       WHERE endpoint = 'line_status'
+       GROUP BY hour_utc
+)
+SELECT p.hour_utc,
+       p.poll_count,
+       ROUND(1.0 * COUNT(o.run_id) / p.poll_count, 2) AS avg_lines_disrupted
+FROM polls p
+LEFT   JOIN collection_run r
+       ON  strftime('%H', r.observed_at) = p.hour_utc
+       AND r.endpoint = 'line_status'
+LEFT   JOIN line_status_observation o ON o.run_id = r.run_id
+LEFT   JOIN severity_dim s
+       ON  s.severity_level = o.severity_level
+       AND s.is_disruption  = 1
+       AND s.is_planned     = 0
+WHERE  s.severity_level IS NOT NULL
+GROUP  BY p.hour_utc, p.poll_count
+ORDER  BY p.hour_utc;
 
 -- 8. WHERE TO INTERVENE FIRST
 -- the whole crux of this repo, cause is crossed with line then ranked by duration weighted
