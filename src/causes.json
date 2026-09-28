@@ -11,5 +11,11 @@
     "incident":         "Customer incident, emergency services or security alert",
     "unclassified":     "No keyword rule matched this notice"
   },
+  
+  "rules": [
+    {"cause": "signal_failure",  "match": "signal failure"},
+    {"cause": "signal_failure",  "match": "track circuit failure"},
+    {"cause": "signal_failure",  "match": "signalling"},
+  ]
     
 }
