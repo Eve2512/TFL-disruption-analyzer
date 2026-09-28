@@ -39,6 +39,16 @@ ORDER  BY observations DESC
 LIMIT  20;
 
 -- 4. CAUSE FREQUENCY, TWO WAYS
+-- observations count as poll-rows, so it weights by how long a disruption lasted.
+SELECT c.cause_code,
+       c.description,
+       COUNT(*)                          AS observations,
+       COUNT(DISTINCT o.disruption_hash) AS episodes
+FROM line_status_observation o
+JOIN reason_cause rc ON rc.reason_text = o.reason
+JOIN cause_dim c oN c.cause_code       = rc.cause_code
+GROUP BY c.cause_code, c.description
+ORDER BY observations DESC;
 
 -- 5. WHICH CAUSES DEGRADE SERVICE
 
