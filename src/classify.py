@@ -63,5 +63,5 @@ def main():
   print(f"{len(reasons)} distinct reasons, {unmatched} unclassified "
         f"({100 * unmatched / len(reasons):.1f}%)")
 
-if __name__ == "__main__"
+if __name__ == "__main__":
   main()
