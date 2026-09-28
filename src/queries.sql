@@ -44,14 +44,27 @@ SELECT c.cause_code,
        c.description,
        COUNT(*)                          AS observations,
        COUNT(DISTINCT o.disruption_hash) AS episodes
-FROM line_status_observation o
-JOIN reason_cause rc ON rc.reason_text = o.reason
-JOIN cause_dim c oN c.cause_code       = rc.cause_code
-GROUP BY c.cause_code, c.description
-ORDER BY observations DESC;
+FROM   line_status_observation o
+JOIN   reason_cause rc ON rc.reason_text = o.reason
+JOIN   cause_dim c oN c.cause_code       = rc.cause_code
+GROUP  BY c.cause_code, c.description
+ORDER  BY observations DESC;
 
 -- 5. WHICH CAUSES DEGRADE SERVICE
-
+-- btw service_impact_rank is my judgement as recorded in severity_dim, and not established TFL dogma.
+-- also avg_rank is duration-weighted for the same reason as above
+SELECT rc.cause_code,
+       COUNT(*)                             AS observations,
+       ROUND(AVG(s.service_impact_rank), 2) AS avg_rank,
+       MAX(s.service_impact_rank)           AS worst_rank,
+       SUM(s.is_planned)                    AS planned_observations,
+FROM   line_status_observation o
+JOIN   reason_cause rc ON rc.reason_text   = o.reason
+JOIN   severity_dim s  ON s.severity_level = o.severity_level
+GROUP  BY rc.cause_code
+HAVING COUNT(*) >= 20
+ORDER  BY avg_rank DESC;
+ 
 -- 6. WHICH LINES
 
 -- 7. WHAT TIME OF DAY
