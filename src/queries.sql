@@ -6,8 +6,8 @@
 
 SELECT substr(observed_at, 1, 10) AS day,
        COUNT(*)                   AS polls,
-       MIN(substr(observed_at, 12, 5)),
-       MAX(substr(observed_at, 12, 5)),
+       MIN(substr(observed_at, 12, 5)) AS first_poll,
+       MAX(substr(observed_at, 12, 5)) AS last_poll
 FROM   collection_run
 WHERE  endpoint = 'line_status'
 GROUP  BY day
