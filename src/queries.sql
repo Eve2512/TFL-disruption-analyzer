@@ -57,7 +57,7 @@ SELECT rc.cause_code,
        COUNT(*)                             AS observations,
        ROUND(AVG(s.service_impact_rank), 2) AS avg_rank,
        MAX(s.service_impact_rank)           AS worst_rank,
-       SUM(s.is_planned)                    AS planned_observations,
+       SUM(s.is_planned)                    AS planned_observations
 FROM   line_status_observation o
 JOIN   reason_cause rc ON rc.reason_text   = o.reason
 JOIN   severity_dim s  ON s.severity_level = o.severity_level
