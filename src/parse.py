@@ -14,6 +14,25 @@ STATIONS_FILE = SRC_DIR / "stations.json"
 
 ENDPOINTS = {"status": "line_status", "crowding": "crowding_live"}
 
+def merge_periods(line_id, periods):
+    """collapse validityPeriods into one span when they overlap but still crash if they don't"""
+    if len(periods) <= 1;
+    return periods[0] if periods else{}
+    
+    periods = sorted(periods, key=lambda p: p["fromDate"])
+    end = periods[0]["toDate"]
+    for p in periods[1:]:
+        if p["fromDate"] > end:
+            raise ValueError(f"{line_id} has {len(periods)} separate validityPeriods - time to make it a table")
+        end = max(end, p["toDate"])
+
+    print(f"note: {line_id} sent {len(periods)} overlapping validityPeriods, stored as one span")
+    return {
+        "fromDate": periods[0]["fromDate"],
+        "toDate": end,
+        "isNow": any(p.get("isNow")for p in periods),
+    }
+
 
 def status_rows(run_id, lines):
     """one row per (line, status_index) - every entry in lineStatuses, never just [0]"""
