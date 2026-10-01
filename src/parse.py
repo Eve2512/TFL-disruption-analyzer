@@ -19,7 +19,7 @@ def status_rows(run_id, lines):
     """one row per (line, status_index) - every entry in lineStatuses, never just [0]"""
     for line in lines:
         for index, status in enumerate(line["lineStatuses"]):
-            periods = status["validityPeriods"]
+            periods = merge_periods(line["id"], status["validityPeriods"])
             if len(periods) > 1:
                 raise ValueError(f"{line['id']} has {len(periods)} validityPeriods - time to make it a table")
             period = periods[0] if periods else {}
