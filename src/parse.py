@@ -17,7 +17,7 @@ ENDPOINTS = {"status": "line_status", "crowding": "crowding_live"}
 def merge_periods(line_id, periods):
     """collapse validityPeriods into one span when they overlap but still crash if they don't"""
     if len(periods) <= 1:
-    return periods[0] if periods else{}
+        return periods[0] if periods else{}
     
     periods = sorted(periods, key=lambda p: p["fromDate"])
     end = periods[0]["toDate"]
