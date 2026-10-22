@@ -34,5 +34,3 @@ src/queries.sql holds the analysis: cause frequency, which causes correlate with
 
 .github/workflows/collect.yml runs the collector, its an hourly cron but each run polls 16 times with 870 seconds of sleep in between, so a run lasts about three and a half hours and overruns its own schedule. The concurrency group then serialises the runs, so they chain back to back and polling is effectively continuous at roughly 15 minute intervals. That detour exists because GitHub throttles high frequency crons hard: a */15 cron was honoured about 5 times a day, while asking for fewer starts and doing more inside each one gets the sampling rate I wanted.
 
-
-#### video demo: https://youtu.be/bffrSWPm_CQ 
